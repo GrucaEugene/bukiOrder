@@ -17,11 +17,11 @@ public class Main {
         int start = testWord.length() - 1;
         for (int i = start; i < mainline.length(); i++) {
             if (mainline.charAt(i) == testWord.charAt(testWord.length() - 1)) {
-                int limit = start;
-                for (int j = i - 1, k = 0; k <= limit - 1; j--, limit--, k++) {
+                int limit = testWord.length() - 1;
+                for (int j = i - 1, k = 0; k <= limit; j--, limit--, k++) {
                     if (mainline.charAt(j) != testWord.charAt(limit - 1)) {
                         break;
-                    } else if(k == limit - 2) resultList.add(i - 2);
+                    } else if(k == limit) resultList.add(j);
                 }
             }
         }
