@@ -10,7 +10,7 @@ public class Main {
         for (String s : words) {
             checkMatches(mainline, s, resultList);
         }
-        resultList.stream().sorted().forEach(s -> System.out.print(s + " "));
+        resultList.stream().sorted().forEach(s -> System.out.print(s + " |"));
     }
 
     private static void checkMatches(String mainline, String testWord, List<Integer> resultList) {
