@@ -21,13 +21,13 @@ public class Main {
                 for (int j = i - 1, k = 0; k <= limit - 1; j--, limit--, k++) {
                     if (mainline.charAt(j) != testWord.charAt(limit - 1)) {
                         break;
-                    } resultList.add(--j);
+                    } else if(k == limit - 2) resultList.add(i - 2);
                 }
             }
         }
     }
 
     public static void main(String[] args) {
-        getStartIndexesOfMatched("abracadabra", new String[]{"abr", "cad", "bra"});
+        getStartIndexesOfMatched("abrbardacabra", new String[]{"abr", "cad", "bra"});
     }
 }
