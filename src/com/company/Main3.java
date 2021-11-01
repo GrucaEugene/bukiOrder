@@ -1,104 +1,44 @@
 package com.company;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-public class Main3 {
+class Main3 {
 
-    static List<Integer> findSubstring(String s, String[] words) {
-        List<Integer> resultList = new ArrayList<>();
-        List<String> allPossibleCombinations = getAllPermutations(words);
-        allPossibleCombinations.forEach(item -> checkMatches(s, item, resultList));
-        Collections.sort(resultList);
-        return resultList;
-    }
-
-    private static List<String> getAllPermutations(String[] words) {
-        List<String> list = new ArrayList<>();
-        int quantityOfPermutations = getQuantityOfPermutations(words);
-        System.out.println(quantityOfPermutations);
-        List<String> items = Arrays.asList(words);
-        if (words.length == 1) {
-            list.add(words[0]);
-            return list;
-        }
-
-        while (list.size() != quantityOfPermutations) {
-            StringBuilder currentCombination = new StringBuilder();
-            Collections.shuffle(items);
-            items.forEach(currentCombination::append);
-            if (list.contains(currentCombination.toString())) continue;
-            list.add(currentCombination.toString());
+    public static List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> list = new LinkedList<>();
+        Map<String, Integer> map = new HashMap<>();
+        for(String word : words) map.put(word, map.getOrDefault(word, 0) +1);
+        for(int i = 0; i <= s.length() - words.length * words[0].length(); i++){
+            Map<String, Integer> map1 = new HashMap<>(map);
+            if(helper(s, i, words[0].length(), map1)){
+                list.add(i);
+            }
         }
         return list;
     }
 
-    private static int getQuantityOfPermutations(String[] words) {
-        int denominator = countDenominator(words);
-        return countFactorial(words.length) / denominator;
-    }
-
-    private static BigInteger getQuantityOfPermutationsForBigNums(String[] words) {
-        int denominator = countDenominator(words);
-        return countFactorialForBigNums(BigInteger.valueOf(words.length)).divide(BigInteger.valueOf(denominator));
-    }
-
-
-
-    private static int countDenominator(String[] words) {
-        Set<String> setOfUniqueWords = new HashSet<>();
-        Collections.addAll(setOfUniqueWords, words);
-        List<Integer> matches = new ArrayList<>();
-        for (String s : setOfUniqueWords) {
-            int count = 0;
-            for (String word : words) {
-                if (s.equals(word)) count++;
-            }
-            matches.add(count);
-        }
-        int result = countFactorial(matches.get(0));
-        for (int i = 1; i < matches.size(); i++) {
-            result *= countFactorial(matches.get(i));
-        }
-        return result;
-
-    }
-
-    private static int countFactorial(int num) {
-        if (num == 1) return 1;
-        return num * countFactorial(num - 1);
-    }
-
-    private static BigInteger countFactorialForBigNums(BigInteger num) {
-        BigInteger factorial = new BigInteger("1");
-        for (int i = 2; i <= num; i++)
-            factorial = factorial.multiply(BigInteger.valueOf(i));
-        return factorial;
-    }
-
-
-    private static void checkMatches(String mainline, String testWord, List<Integer> resultList) {
-        int start = testWord.length() - 1;
-        for (int i = start; i < mainline.length(); i++) {
-            if (mainline.charAt(i) == testWord.charAt(testWord.length() - 1)) {
-                if (testWord.length() == 1) {
-                    resultList.add(i);
-                    break;
+    public static boolean helper(String s, int i, int length, Map<String, Integer> map){
+        while(map.size() > 0){
+            if(map.containsKey(s.substring(i, i+length))){
+                if(map.get(s.substring(i, i+length)) == 1){
+                    map.remove(s.substring(i, i+length));
+                }else{
+                    map.put(s.substring(i, i+length), map.get(s.substring(i, i+length))-1);
                 }
-                int limit = testWord.length() - 1;
-                for (int j = i - 1, k = 0; k < testWord.length() - 1; j--, limit--, k++) {
-                    if (mainline.charAt(j) != testWord.charAt(limit - 1)) {
-                        break;
-                    } else if (limit == 1) {
-                        resultList.add(j);
-                    }
-                }
+                i = i + length;
+            }else{
+                return false;
             }
         }
+        return true;
     }
 
     public static void main(String[] args) {
-        System.out.println(findSubstring("pjzkrkevzztxductzzxmxsvwjkxpvukmfjywwetvfnujhweiybwvvsrfequzkhossmootkmyxgjgfordrpapjuunmqnxxdrqrfgkrsjqbszgiqlcfnrpjlcwdrvbumtotzylshdvccdmsqoadfrpsvnwpizlwszrtyclhgilklydbmfhuywotjmktnwrfvizvnmfvvqfiokkdprznnnjycttprkxpuykhmpchiksyucbmtabiqkisgbhxngmhezrrqvayfsxauampdpxtafniiwfvdufhtwajrbkxtjzqjnfocdhekumttuqwovfjrgulhekcpjszyynadxhnttgmnxkduqmmyhzfnjhducesctufqbumxbamalqudeibljgbspeotkgvddcwgxidaiqcvgwykhbysjzlzfbupkqunuqtraxrlptivshhbihtsigtpipguhbhctcvubnhqipncyxfjebdnjyetnlnvmuxhzsdahkrscewabejifmxombiamxvauuitoltyymsarqcuuoezcbqpdaprxmsrickwpgwpsoplhugbikbkotzrtqkscekkgwjycfnvwfgdzogjzjvpcvixnsqsxacfwndzvrwrycwxrcismdhqapoojegggkocyrdtkzmiekhxoppctytvphjynrhtcvxcobxbcjjivtfjiwmduhzjokkbctweqtigwfhzorjlkpuuliaipbtfldinyetoybvugevwvhhhweejogrghllsouipabfafcxnhukcbtmxzshoyyufjhzadhrelweszbfgwpkzlwxkogyogutscvuhcllphshivnoteztpxsaoaacgxyaztuixhunrowzljqfqrahosheukhahhbiaxqzfmmwcjxountkevsvpbzjnilwpoermxrtlfroqoclexxisrdhvfsindffslyekrzwzqkpeocilatftymodgztjgybtyheqgcpwogdcjlnlesefgvimwbxcbzvaibspdjnrpqtyeilkcspknyylbwndvkffmzuriilxagyerjptbgeqgebiaqnvdubrtxibhvakcyotkfonmseszhczapxdlauexehhaireihxsplgdgmxfvaevrbadbwjbdrkfbbjjkgcztkcbwagtcnrtqryuqixtzhaakjlurnumzyovawrcjiwabuwretmdamfkxrgqgcdgbrdbnugzecbgyxxdqmisaqcyjkqrntxqmdrczxbebemcblftxplafnyoxqimkhcykwamvdsxjezkpgdpvopddptdfbprjustquhlazkjfluxrzopqdstulybnqvyknrchbphcarknnhhovweaqawdyxsqsqahkepluypwrzjegqtdoxfgzdkydeoxvrfhxusrujnmjzqrrlxglcmkiykldbiasnhrjbjekystzilrwkzhontwmehrfsrzfaqrbbxncphbzuuxeteshyrveamjsfiaharkcqxefghgceeixkdgkuboupxnwhnfigpkwnqdvzlydpidcljmflbccarbiegsmweklwngvygbqpescpeichmfidgsjmkvkofvkuehsmkkbocgejoiqcnafvuokelwuqsgkyoekaroptuvekfvmtxtqshcwsztkrzwrpabqrrhnlerxjojemcxel", new String[]{"dhvf", "sind", "ffsl", "yekr", "zwzq", "kpeo", "cila", "tfty", "modg", "ztjg", "ybty", "heqg", "cpwo", "gdcj", "lnle", "sefg", "vimw", "bxcb"}));
+
+        System.out.println(findSubstring(
+                "pjzkrkevzztxductzzxmxsvwjkxpvukmfjywwetvfnujhweiybwvvsrfequzkhossmootkmyxgjgfordrpapjuunmqnxxdrqrfgkrsjqbszgiqlcfnrpjlcwdrvbumtotzylshdvccdmsqoadfrpsvnwpizlwszrtyclhgilklydbmfhuywotjmktnwrfvizvnmfvvqfiokkdprznnnjycttprkxpuykhmpchiksyucbmtabiqkisgbhxngmhezrrqvayfsxauampdpxtafniiwfvdufhtwajrbkxtjzqjnfocdhekumttuqwovfjrgulhekcpjszyynadxhnttgmnxkduqmmyhzfnjhducesctufqbumxbamalqudeibljgbspeotkgvddcwgxidaiqcvgwykhbysjzlzfbupkqunuqtraxrlptivshhbihtsigtpipguhbhctcvubnhqipncyxfjebdnjyetnlnvmuxhzsdahkrscewabejifmxombiamxvauuitoltyymsarqcuuoezcbqpdaprxmsrickwpgwpsoplhugbikbkotzrtqkscekkgwjycfnvwfgdzogjzjvpcvixnsqsxacfwndzvrwrycwxrcismdhqapoojegggkocyrdtkzmiekhxoppctytvphjynrhtcvxcobxbcjjivtfjiwmduhzjokkbctweqtigwfhzorjlkpuuliaipbtfldinyetoybvugevwvhhhweejogrghllsouipabfafcxnhukcbtmxzshoyyufjhzadhrelweszbfgwpkzlwxkogyogutscvuhcllphshivnoteztpxsaoaacgxyaztuixhunrowzljqfqrahosheukhahhbiaxqzfmmwcjxountkevsvpbzjnilwpoermxrtlfroqoclexxisrdhvfsindffslyekrzwzqkpeocilatftymodgztjgybtyheqgcpwogdcjlnlesefgvimwbxcbzvaibspdjnrpqtyeilkcspknyylbwndvkffmzuriilxagyerjptbgeqgebiaqnvdubrtxibhvakcyotkfonmseszhczapxdlauexehhaireihxsplgdgmxfvaevrbadbwjbdrkfbbjjkgcztkcbwagtcnrtqryuqixtzhaakjlurnumzyovawrcjiwabuwretmdamfkxrgqgcdgbrdbnugzecbgyxxdqmisaqcyjkqrntxqmdrczxbebemcblftxplafnyoxqimkhcykwamvdsxjezkpgdpvopddptdfbprjustquhlazkjfluxrzopqdstulybnqvyknrchbphcarknnhhovweaqawdyxsqsqahkepluypwrzjegqtdoxfgzdkydeoxvrfhxusrujnmjzqrrlxglcmkiykldbiasnhrjbjekystzilrwkzhontwmehrfsrzfaqrbbxncphbzuuxeteshyrveamjsfiaharkcqxefghgceeixkdgkuboupxnwhnfigpkwnqdvzlydpidcljmflbccarbiegsmweklwngvygbqpescpeichmfidgsjmkvkofvkuehsmkkbocgejoiqcnafvuokelwuqsgkyoekaroptuvekfvmtxtqshcwsztkrzwrpabqrrhnlerxjojemcxel", new String[]{"dhvf","sind","ffsl","yekr","zwzq","kpeo","cila","tfty","modg","ztjg","ybty","heqg","cpwo","gdcj","lnle","sefg","vimw","bxcb"}));
     }
 }
