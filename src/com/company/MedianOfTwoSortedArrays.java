@@ -11,12 +11,17 @@ public class MedianOfTwoSortedArrays {
         if (merged.length % 2 == 1) {
             return merged[merged.length / 2];
         } else {
-            return (double) (merged[merged.length/2 - 1] + merged[merged.length/2]) / 2;
+            return (double) (merged[merged.length / 2 - 1] + merged[merged.length / 2]) / 2;
         }
     }
 
     public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
         System.out.println(findMedianSortedArrays(new int[]{1, 3}, new int[]{2}));
-
+        long endTime = System.currentTimeMillis();
+        System.out.println("Total execution time: " + (endTime - startTime) + " ms");
     }
+
+
 }
+

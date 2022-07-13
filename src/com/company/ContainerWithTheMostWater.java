@@ -24,8 +24,11 @@ public class ContainerWithTheMostWater {
     }
 
     public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
         int[] arr = new int[]{1, 8, 6, 2, 5, 4, 8, 3, 7};
         System.out.println(maxArea(arr));
+        long endTime = System.currentTimeMillis();
+        System.out.println("Total execution time: " + (endTime - startTime) + " ms");
 
     }
 }
