@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 public class TestStart {
     public static void main(String[] args) {
-      int res = 18 % 10;
-        System.out.println(res);
+      int numOfCores = Runtime.getRuntime().availableProcessors();
+        System.out.println(numOfCores);
     }
 }
 

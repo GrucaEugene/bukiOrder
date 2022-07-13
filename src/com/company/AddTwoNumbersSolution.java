@@ -43,10 +43,13 @@ public class AddTwoNumbersSolution {
     }
 
     public static void main(String[] args) {
+        long start = System.currentTimeMillis();
         AddTwoNumbers.ListNode result = addTwoNumbers(
                 new AddTwoNumbers.ListNode(2, new AddTwoNumbers.ListNode(4, new AddTwoNumbers.ListNode(9))),
                 new AddTwoNumbers.ListNode(5, new AddTwoNumbers.ListNode(6, new AddTwoNumbers.ListNode(4))));
         System.out.println(result.val);
+        long finish = System.currentTimeMillis();
+        System.out.println(finish - start);
     }
 
 }
