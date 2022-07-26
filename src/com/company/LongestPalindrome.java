@@ -20,11 +20,7 @@ public class LongestPalindrome {
     private static boolean checkPalindrome(int leftPointer, int rightPointer, char[] arr) {
         if (rightPointer - leftPointer == 1 || rightPointer - leftPointer == 2) return true;
         int left, right;
-        if((rightPointer - leftPointer) % 2 == 1) {
-            left = (leftPointer + rightPointer) / 2;
-        } else {
-            left = (leftPointer + rightPointer) / 2 - 1;
-        }
+        left = (rightPointer - leftPointer) % 2 == 1? (leftPointer + rightPointer) / 2 : (leftPointer + rightPointer) / 2 - 1;
         right = (leftPointer + rightPointer) / 2 + 1;
         while(left > leftPointer && right < rightPointer) {
             if(arr[left] != arr[right]) return false;
