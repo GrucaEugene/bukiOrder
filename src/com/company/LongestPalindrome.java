@@ -18,15 +18,19 @@ public class LongestPalindrome {
     }
 
     private static boolean checkPalindrome(int leftPointer, int rightPointer, char[] arr) {
-        if (rightPointer - leftPointer == 1) return true;
-        int left = leftPointer + 1;
-        int right = rightPointer - 1;
-        while (right > left) {
-            if (arr[left] != arr[right]) return false;
-            left++;
-            right--;
+        if (rightPointer - leftPointer == 1 || rightPointer - leftPointer == 2) return true;
+        int left, right;
+        if((rightPointer - leftPointer) % 2 == 1) {
+            left = (leftPointer + rightPointer) / 2;
+        } else {
+            left = (leftPointer + rightPointer) / 2 - 1;
         }
-        return true;
+        right = (leftPointer + rightPointer) / 2 + 1;
+        while(left > leftPointer && right < rightPointer) {
+            if(arr[left] != arr[right]) return false;
+            left--;
+            right++;
+        } return true;
     }
 
     public static void main(String[] args) {
