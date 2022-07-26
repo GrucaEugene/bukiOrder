@@ -30,6 +30,9 @@ public class LongestPalindrome {
     }
 
     public static void main(String[] args) {
+        long start = System.currentTimeMillis();
         System.out.println(longestPalindrome("aacabdkacaa"));
+        long finish = System.currentTimeMillis();
+        System.out.println(finish - start);
     }
 }
