@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class TestStart {
     public static void main(String[] args) {
-      int numOfCores = Runtime.getRuntime().availableProcessors();
+      int numOfCores = 7 % 2;
         System.out.println(numOfCores);
     }
 }
