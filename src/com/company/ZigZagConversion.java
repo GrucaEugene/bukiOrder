@@ -2,14 +2,12 @@ package com.company;
 
 public class ZigZagConversion {
     public static String convert(String s, int numRows) {
-        if(numRows == 1 || s.length() == 1) return s;
+        if (numRows == 1 || s.length() == 1) return s;
         int lineLength = s.length() <= numRows ? 1 : (s.length() / numRows) * 2 + 1;
         char[][] arr = new char[numRows][lineLength];
         boolean goingUp = false;
-        int k = 0;
-        int j = 0;
-        int i = 0;
-        while(k < s.length()) {
+        int k = 0, j = 0, i = 0;
+        while (k < s.length()) {
             arr[j][i] = s.charAt(k++);
             if (!goingUp && j == numRows - 1) {
                 j--;
@@ -25,6 +23,7 @@ public class ZigZagConversion {
                 j++;
             } else {
                 j--;
+                i++;
             }
         }
         StringBuilder stringBuilder = new StringBuilder();
@@ -36,12 +35,10 @@ public class ZigZagConversion {
 
         return stringBuilder.toString();
     }
-    // PAGYNPIARLIIHS
-    // PAGYNPIARLIIHS
 
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
-        System.out.println(convert("ABCDE", 3));
+        System.out.println(convert("PAYPALISHIRING", 8));
         long finish = System.currentTimeMillis();
         System.out.println("execution time: " + (finish - start));
     }
