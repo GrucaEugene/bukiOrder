@@ -23,7 +23,6 @@ public class ZigZagConversion {
                 j++;
             } else {
                 j--;
-                i++;
             }
         }
         StringBuilder stringBuilder = new StringBuilder();
@@ -38,7 +37,7 @@ public class ZigZagConversion {
 
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
-        System.out.println(convert("PAYPALISHIRING", 8));
+        System.out.println(convert("PAYPALISHIRING", 3));
         long finish = System.currentTimeMillis();
         System.out.println("execution time: " + (finish - start));
     }
